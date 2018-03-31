@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import QuizApp from './QuizApp';
+import Spinner from './Spinner';
 
 class Validate extends Component{
 	constructor(){
@@ -16,7 +17,7 @@ class Validate extends Component{
 	}
 	componentDidUpdate(prevProps, prevState){
 		if(this.state!==prevState){
-			if(this.state.validating===false){
+			if(this.state.validating===false&&this.state.validating===false){
 				if(this.state.user.length>14){
 					if(this.state.user.indexOf('@tecsup.edu.pe')!==-1){
 						this.setState({validating: true})
@@ -29,7 +30,7 @@ class Validate extends Component{
 		if(this.state.started){
 			return <QuizApp totalQuestions={10} />
 		}else if(this.state.validating){
-			return <div className="loader">Cargando...</div>
+			return <Spinner />
 		}else{
 			return (<div>
 				<h1>Bienvenido a tu primer examen</h1>
