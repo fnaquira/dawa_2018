@@ -1,9 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
-import QuizApp from './components/QuizApp';
+import Validate from './components/Validate';
 import './style.css';
 
 render(
-  <QuizApp totalQuestions={10} />,
+  <Validate />,
   document.getElementById("app")
 );
