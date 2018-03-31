@@ -7,15 +7,15 @@ const Quiz = ({ step, questions, totalQuestions, score, handleAnswerClick }) => 
     <div className="wrapper">
       <header>
         <div className="question-count">
-          <h2>Question</h2>
+          <h2>Pregunta</h2>
           <div className="question-number">{step}</div>
-          <div className="description">of <span>{totalQuestions}</span></div>
+          <div className="description">de <span>{totalQuestions}</span></div>
         </div>
-        <h1>JavaScript Quiz</h1>
+        <h1>Examen 01 DAWA</h1>
         <div className="score-container">
-          <h2>Score</h2>
+          <h2>Puntaje</h2>
           <div className="score">{score}</div>
-          <div className="description">points</div>
+          <div className="description">puntos</div>
         </div>
       </header>
 
