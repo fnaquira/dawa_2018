@@ -6,6 +6,8 @@ import Results from './Results';
 import shuffleQuestions from '../helpers/shuffleQuestions';
 import { questions } from '../data/quiz-data';
 
+import axios from '../axios_dawa';
+
 class QuizApp extends Component {
   constructor() {
     super();
@@ -48,7 +50,23 @@ class QuizApp extends Component {
     const { questions, step, userAnswers } = this.state;
     const isCorrect = questions[0].correct === e.target.textContent;
     const currentStep = step - 1;
-    const tries = userAnswers[currentStep].tries;
+    const tries = isCorrect//userAnswers[currentStep].tries;
+
+    axios.post('users/set_q',{
+      user: this.props.user,
+      quiz: this.props.quiz,
+      step: currentStep,
+      question: questions[0].id,
+      tries: userAnswers[currentStep]['tries'],
+      answer: e.target.textContent,
+      isCorrect: isCorrect
+    })
+      .then(response => {
+        console.log(response.data)
+      })
+      .catch( error => {
+          this.setState( { started: false, validating: false } );
+      } );
 
     if (isCorrect && e.target.nodeName === 'LI') {
       // Prevent other answers from being clicked after correct answer is clicked
@@ -57,16 +75,16 @@ class QuizApp extends Component {
       e.target.classList.add('right');
 
       userAnswers[currentStep] = {
-        tries: tries + 1
+        tries: isCorrect//tries + 1
       };
 
       this.setState({
         userAnswers: userAnswers
       });
 
-      setTimeout(() => this.showModal(tries), 750);
+      //setTimeout(() => this.showModal(tries), 750);
 
-      setTimeout(this.nextStep, 2750);
+      //setTimeout(this.nextStep, 2750);
 
     }
 
@@ -75,7 +93,7 @@ class QuizApp extends Component {
       e.target.classList.add('wrong');
 
       userAnswers[currentStep] = {
-        tries: tries + 1
+        tries: isCorrect//tries + 1
       };
 
       this.setState({
@@ -83,32 +101,21 @@ class QuizApp extends Component {
       });
 
     }
+    setTimeout(() => this.showModal(tries), 750);
+
+    setTimeout(this.nextStep, 2750);
   }
 
   showModal(tries) {
     let praise;
     let points;
 
-    switch (tries) {
-      case 0: {
-        praise = '1er Intento!';
-        points = '+10';
-        break;
-      }
-      case 1: {
-        praise = '2do Intento!';
-        points = '+5';
-        break;
-      }
-      case 2: {
-        praise = 'Correcto!';
-        points = '+2';
-        break;
-      }
-      default: {
-        praise = 'Correcto!';
-        points = '+1';
-      }
+    if(tries) {
+      praise = 'Bien hecho!';
+      points = '+1';
+    }else{
+      praise = 'Respuesta errónea :(';
+      points = '0';
     }
 
     this.setState({
@@ -130,10 +137,11 @@ class QuizApp extends Component {
     this.setState({
       step: step + 1,
       score: (() => {
-        if (tries === 1) return score + 10;
+        /*if (tries === 1) return score + 10;
         if (tries === 2) return score + 5;
-        if (tries === 3) return score + 2;
-        return score + 1;
+        if (tries === 3) return score + 2;*/
+        //return score + 1;
+        return score + tries;
       })(),
       questions: restOfQuestions,
       modal: {
