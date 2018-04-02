@@ -25,7 +25,7 @@ var User = mongoose.model('users', userSchema);
 
 module.exports = {
 	get: function(data,callback){
-		User.findOne(data,'email nomb appat apmat grupo',function(err,item){
+		User.findOne(data,'email nomb appat apmat grupo quizes',function(err,item){
 			if(err){
 				var errores = '';
 				console.log('Error al guardar documento');
@@ -41,7 +41,7 @@ module.exports = {
 		});
 	},
 	list: function(params,paging,callback){
-		paging.select = 'email nomb appat apmat grupo test01';
+		paging.select = 'email nomb appat apmat grupo quizes';
 		User.paginate(params,paging,function(err,items){
 			if (!err) {
 				var rpta = {
@@ -126,26 +126,40 @@ module.exports = {
 		});
 	},
 	set_question: function(data,callback){
-		User.findOne({_id: data._id},function(err,item){
-			var quiz = item.quizes[data.quiz];
-			if(quiz.answers[data.step]!=null){
-				callback({
-					error: 'intenta repetir la pregunta '+data.step
-				});
-			}else if(quiz.answers.length!=data.step){
-				callback({
-					error: 'intenta adelantar o retroceder la pregunta '+data.step
-				});
-			}else{
-				item.quizes[data.quiz].answers.push({
-					question: data.question,
-					answer: data.answer,
-					tries: data.tries
-				});
-				item.save(function(){
-					callback({saved: true});
-				});
-			}
+		User.findOne({_id: data.user},function(err,item){
+			if(item!=null){
+				var quiz = item.quizes[data.quiz];
+				if(quiz.answers[data.step]!=null){
+					callback({
+						error: 'intenta repetir la pregunta '+data.step
+					});
+				}else if(quiz.answers.length!=data.step){
+					callback({
+						error: 'intenta adelantar o retroceder la pregunta '+data.step
+					});
+				}else{
+					var lock = false;
+					quiz.answers.forEach(function(it){
+						if(it.question==data.question){
+							lock = true;
+							callback({
+								error: 'intenta repetir la pregunta '+data.step
+							});
+						}
+					});
+					if(lock==false){
+						item.quizes[data.quiz].answers.push({
+							question: data.question,
+							answer: data.answer,
+							isCorrect: data.isCorrect
+						});
+						item.quizes[data.quiz].grade += data.isCorrect?1:0;
+						item.save(function(){
+							callback({saved: true});
+						});
+					}
+				}
+			};
 		});
 	}
 };

@@ -9,15 +9,14 @@ import { questions } from '../data/quiz-data';
 import axios from '../axios_dawa';
 
 class QuizApp extends Component {
-  constructor() {
+  constructor(props) {
     super();
-
     this.state = {
       questions:  [],
       userAnswers: [],
       maxQuestions: 0,
-      step: 1,
-      score: 0,
+      step: Number.parseInt(props.step,10),
+      score: Number.parseInt(props.score,10),
       modal: {
         state: 'hide',
         praise: '',
@@ -32,8 +31,11 @@ class QuizApp extends Component {
 
   componentWillMount() {
     const { totalQuestions } = this.props;
-    const maxQuestions = Math.min(totalQuestions, questions.length);
-    const QUESTIONS = shuffleQuestions(questions, maxQuestions);
+    const questions1 = questions.filter((item) =>{
+      return this.props.answers.indexOf(''+item.id)===-1;
+    });
+    const maxQuestions = Math.min(totalQuestions, questions1.length);
+    const QUESTIONS = shuffleQuestions(questions1, maxQuestions);
 
     this.setState({
       questions: QUESTIONS,
@@ -62,13 +64,20 @@ class QuizApp extends Component {
       isCorrect: isCorrect
     })
       .then(response => {
-        console.log(response.data)
+        if(response.data.error!=null){
+
+
+
+          alert('ERROR: '+response.data.error)
+
+
+        }
       })
       .catch( error => {
           this.setState( { started: false, validating: false } );
       } );
 
-    if (isCorrect && e.target.nodeName === 'LI') {
+    if(isCorrect && e.target.nodeName === 'LI'){
       // Prevent other answers from being clicked after correct answer is clicked
       e.target.parentNode.style.pointerEvents = 'none';
 
@@ -81,14 +90,7 @@ class QuizApp extends Component {
       this.setState({
         userAnswers: userAnswers
       });
-
-      //setTimeout(() => this.showModal(tries), 750);
-
-      //setTimeout(this.nextStep, 2750);
-
-    }
-
-    else if (e.target.nodeName === 'LI') {
+    }else if (e.target.nodeName === 'LI') {
       e.target.style.pointerEvents = 'none';
       e.target.classList.add('wrong');
 
@@ -102,7 +104,6 @@ class QuizApp extends Component {
 
     }
     setTimeout(() => this.showModal(tries), 750);
-
     setTimeout(this.nextStep, 2750);
   }
 
@@ -141,7 +142,7 @@ class QuizApp extends Component {
         if (tries === 2) return score + 5;
         if (tries === 3) return score + 2;*/
         //return score + 1;
-        return score + tries;
+        return score + (tries?1:0);
       })(),
       questions: restOfQuestions,
       modal: {

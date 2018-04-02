@@ -18,10 +18,8 @@ router.post('/by_email', function(req, res, next) {
 	});
 });
 
-//router.post('/set_q',function(req,res){
-	//model_users.set_question(req.body,function(data){
-router.get('/set_q',function(req,res){
-	model_users.set_question(req.query,function(data){
+router.post('/set_q',function(req,res){
+	model_users.set_question(req.body,function(data){
 		res.send(data);
 	});
 });

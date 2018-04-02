@@ -11,14 +11,14 @@ const Results = ({ userAnswers, score, restartQuiz }) => {
   
   return (
     <div className="results-container">
-      <h2>Quiz Results</h2>
-      <div>You answered...</div>
+      <h2>Resultados del Examen</h2>
+      <div>Has respondido...</div>
       {oneTry}
       {twoTries}
       {threeTries}
       {fourTries}
-      <div className="results-total">Your Total Score is <strong>{score}</strong>.</div>
-      <a onClick={restartQuiz}>Restart Quiz</a>
+      <div className="results-total">Tu puntaje final es <strong>{score}</strong>.</div>
+      <a onClick={restartQuiz}>Reiniciar Examen</a>
     </div>
   );
 }
