@@ -1,5 +1,12 @@
-extends layout
-
-block content
-  h1= title
-  p Welcome to #{title}
+doctype html
+html
+  head
+    link(href='http://fonts.googleapis.com/css?family=Roboto:400,100,700', rel='stylesheet')
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=Edge')
+    meta(name='viewport', content='width=device-width,initial-scale=1')
+    title DAWA Test 01
+    link(href='style.css', rel='stylesheet')
+  body
+    #app
+    script(type='text/javascript', src='bundle.js')

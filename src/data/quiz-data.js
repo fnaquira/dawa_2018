@@ -14,7 +14,7 @@ export const questions = [
   },
   {
     'id': 5,
-    'question': <span>Indicar cuál es el error del siguiente código:<br /><img src="http://localhost:8000/images/quiz01-01.png" /></span>,
+    'question': <span>Indicar cuál es el error del siguiente código:<br /><img src="http://172.16.2.132:8000/images/quiz01-01.png" /></span>,
     'answers': [
       <span>Los argumentos no deben llamarse solicitud y respuesta, sino req y res.</span>,
       <span>Están prohibidos los bucles infinitos en NodeJS.</span>,
@@ -36,11 +36,11 @@ export const questions = [
   },
   {
     'id': 7,
-    'question': <span>La siguiente porción de código <br /><img src="http://localhost:8000/images/quiz01-02.png" /><br /> es equivalente a:</span>,
+    'question': <span>La siguiente porción de código <br /><img src="http://172.16.2.132:8000/images/quiz01-02.png" /><br /> es equivalente a:</span>,
     'answers': [
-      <span>Opción 1 <img src="http://localhost:8000/images/quiz01-02-01.png" /></span>,
-      <span>Opción 2 <img src="http://localhost:8000/images/quiz01-02-02.png" /></span>,
-      <span>Opción 3 <img src="http://localhost:8000/images/quiz01-02-03.png" /></span>,
+      <span>Opción 1 <img src="http://172.16.2.132:8000/images/quiz01-02-01.png" /></span>,
+      <span>Opción 2 <img src="http://172.16.2.132:8000/images/quiz01-02-02.png" /></span>,
+      <span>Opción 3 <img src="http://172.16.2.132:8000/images/quiz01-02-03.png" /></span>,
       <span>Todas las anteriores</span>
     ],
     'correct': 'Todas las anteriores'
@@ -126,9 +126,9 @@ export const questions = [
     'id': 14,
     'question': <span>Señale cuál de los siguientes es un ejemplo de error lógico</span>,
     'answers': [
-      <span>1 <img src="http://localhost:8000/images/quiz01-03-01.png"/></span>,
-      <span>2 <img src="http://localhost:8000/images/quiz01-03-02.png"/></span>,
-      <span>3 <img src="http://localhost:8000/images/quiz01-03-03.png"/></span>,
+      <span>1 <img src="http://172.16.2.132:8000/images/quiz01-03-01.png"/></span>,
+      <span>2 <img src="http://172.16.2.132:8000/images/quiz01-03-02.png"/></span>,
+      <span>3 <img src="http://172.16.2.132:8000/images/quiz01-03-03.png"/></span>,
       <span>Todos son errores lógicos</span>
     ],
     'correct': '2 '
@@ -137,16 +137,16 @@ export const questions = [
     'id': 15,
     'question': <span>Indique cuál de las siguientes invocaciones es la más funcional y eficiente</span>,
     'answers': [
-      <span>1 <img src="http://localhost:8000/images/quiz01-04-01.png"/></span>,
-      <span>2 <img src="http://localhost:8000/images/quiz01-04-02.png"/></span>,
-      <span>3 <img src="http://localhost:8000/images/quiz01-04-03.png"/></span>,
-      <span>4 <img src="http://localhost:8000/images/quiz01-04-04.png"/></span>,
+      <span>1 <img src="http://172.16.2.132:8000/images/quiz01-04-01.png"/></span>,
+      <span>2 <img src="http://172.16.2.132:8000/images/quiz01-04-02.png"/></span>,
+      <span>3 <img src="http://172.16.2.132:8000/images/quiz01-04-03.png"/></span>,
+      <span>4 <img src="http://172.16.2.132:8000/images/quiz01-04-04.png"/></span>,
     ],
     'correct': '3 '
   },
   {
     'id': 16,
-    'question': <span><img src="http://localhost:8000/images/quiz01-05.png" /></span>,
+    'question': <span><img src="http://172.16.2.132:8000/images/quiz01-05.png" /></span>,
     'answers': [
       <span>NodeJS</span>,
       <span>MERN</span>,
