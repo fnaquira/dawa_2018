@@ -13,6 +13,8 @@ $ npm install
 $ npm start
 ```
 
+Open your browser at http://localhost:8000
+
 App Structure
 -------------
 
