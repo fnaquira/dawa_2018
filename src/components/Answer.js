@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 
 const Answer = ({ answer, handleAnswerClick }) => {
   return (
@@ -10,10 +10,10 @@ const Answer = ({ answer, handleAnswerClick }) => {
     </li>
   );
 }
-
+/*
 Answer.propTypes = {
   answer: PropTypes.element.isRequired,
   handleAnswerClick: PropTypes.func.isRequired
-};
+};*/
 
 export default Answer;

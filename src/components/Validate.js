@@ -10,13 +10,32 @@ class Validate extends Component{
         super();
         this.state = {
             started: false,
-            validating: false,
+            validating: true,
             email: '',
             _id: ''
         };
     }
     componentDidMount(){
-        this.textInput.current.focus();
+        if(this.state.validating===false){
+            this.textInput.current.focus();
+        }else{
+            axios.post('questions/all').then(response=>{
+                if(response.data.error!=='Not found')
+                    this.setState({
+                        validating: false,
+                        questions: response.data.map(item => {return {
+                            id: item._id,
+                            cod: item.cod,
+                            question: item.title,
+                            answers: item.answers
+                        }})
+                    });
+                else
+                    this.setState( { started: false, validating: false } );
+            }).catch( error => {
+                this.setState( { started: false, validating: false } );
+            } );
+        }
     }
     userInputHandler (ev) {
         this.setState({email: ev.target.value})
@@ -40,9 +59,9 @@ class Validate extends Component{
                     this.setState({
                         started: true,
                         _id: response.data._id,
-                        step: response.data.quizes[0].answers.length,
-                        score: response.data.quizes[0].grade,
-                        answers: response.data.quizes[0].answers
+                        step: response.data.quizes[1].answers.length,
+                        score: response.data.quizes[1].grade,
+                        answers: response.data.quizes[1].answers
                     });
                 else
                     this.setState( { started: false, validating: false } );
@@ -56,9 +75,10 @@ class Validate extends Component{
             return <QuizApp
                 totalQuestions={10}
                 user={this.state._id}
-                quiz={0}
+                quiz={1}
                 step={this.state.step+1}
                 score={this.state.score}
+                questions={this.state.questions}
                 answers={this.state.answers.map(it=>{
                     return it.question
                 })} />

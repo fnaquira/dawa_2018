@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import Quiz from './Quiz';
 import Modal from './Modal';
 import Results from './Results';
 import shuffleQuestions from '../helpers/shuffleQuestions';
-import { questions } from '../data/quiz-data';
+//import { questions } from '../data/quiz-data';
 
 import axios from '../axios_dawa';
 
@@ -31,7 +31,7 @@ class QuizApp extends Component {
 
   componentWillMount() {
     const { totalQuestions } = this.props;
-    const questions1 = questions.filter((item) =>{
+    const questions1 = this.props.questions.filter((item) =>{
       return this.props.answers.indexOf(''+item.id)===-1;
     });
     const maxQuestions = Math.min(totalQuestions, questions1.length);
@@ -50,15 +50,14 @@ class QuizApp extends Component {
 
   handleAnswerClick(e) {
     const { questions, step, userAnswers } = this.state;
-    const isCorrect = questions[0].correct === e.target.textContent;
+    let isCorrect = questions[0].correct === e.target.textContent;
     const currentStep = step - 1;
-    const tries = isCorrect//userAnswers[currentStep].tries;
-
+    let tries = isCorrect//userAnswers[currentStep].tries
     axios.post('users/set_q',{
       user: this.props.user,
       quiz: this.props.quiz,
       step: currentStep,
-      question: questions[0].id,
+      question: questions[0].cod,
       tries: userAnswers[currentStep]['tries'],
       answer: e.target.textContent,
       isCorrect: isCorrect
@@ -71,40 +70,41 @@ class QuizApp extends Component {
           alert('ERROR: '+response.data.error)
 
 
+        }else{
+          isCorrect = response.data.isCorrect;
+          tries = isCorrect//userAnswers[currentStep].tries;
+          if(isCorrect){
+            // Prevent other answers from being clicked after correct answer is clicked
+            /*e.target.parentNode.style.pointerEvents = 'none';
+            e.target.classList.add('right');*/
+
+            userAnswers[currentStep] = {
+              tries: isCorrect//tries + 1
+            };
+
+            this.setState({
+              userAnswers: userAnswers
+            });
+          }else{
+            /*e.target.style.pointerEvents = 'none';
+            e.target.classList.add('wrong');*/
+
+            userAnswers[currentStep] = {
+              tries: isCorrect//tries + 1
+            };
+
+            this.setState({
+              userAnswers: userAnswers
+            });
+
+          }
+          setTimeout(() => this.showModal(tries), 750);
+          setTimeout(this.nextStep, 2750);
         }
       })
       .catch( error => {
           this.setState( { started: false, validating: false } );
       } );
-
-    if(isCorrect && e.target.nodeName === 'LI'){
-      // Prevent other answers from being clicked after correct answer is clicked
-      e.target.parentNode.style.pointerEvents = 'none';
-
-      e.target.classList.add('right');
-
-      userAnswers[currentStep] = {
-        tries: isCorrect//tries + 1
-      };
-
-      this.setState({
-        userAnswers: userAnswers
-      });
-    }else if (e.target.nodeName === 'LI') {
-      e.target.style.pointerEvents = 'none';
-      e.target.classList.add('wrong');
-
-      userAnswers[currentStep] = {
-        tries: isCorrect//tries + 1
-      };
-
-      this.setState({
-        userAnswers: userAnswers
-      });
-
-    }
-    setTimeout(() => this.showModal(tries), 750);
-    setTimeout(this.nextStep, 2750);
   }
 
   showModal(tries) {
@@ -156,7 +156,7 @@ class QuizApp extends Component {
   }
 
   render() {
-    const { step, questions, userAnswers, maxQuestions, score, modal } = this.state;
+    const { step, userAnswers, maxQuestions, score, modal } = this.state;
 
     if (step >= maxQuestions + 1) {
       return (
@@ -170,7 +170,7 @@ class QuizApp extends Component {
       <div>
         <Quiz
           step={step}
-          questions={questions}
+          questions={this.props.questions}
           totalQuestions={maxQuestions}
           score={score}
           handleAnswerClick={this.handleAnswerClick}
@@ -181,12 +181,12 @@ class QuizApp extends Component {
   }
 }
 
-QuizApp.defaultProps = {
+/*QuizApp.defaultProps = {
   totalQuestions: questions.length
 };
 
 QuizApp.propTypes = {
   totalQuestions: PropTypes.number.isRequired
-};
+};*/
 
 export default QuizApp;

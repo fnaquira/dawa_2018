@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import Question from './Question';
 
 const QuestionList = ({ questions, handleAnswerClick }) => {
@@ -8,7 +8,7 @@ const QuestionList = ({ questions, handleAnswerClick }) => {
       {questions.map(question => {
         return (
           <Question
-            key={question.question.props.children.toString()}
+            key={question.question}
             question={question.question}
             answers={question.answers}
             handleAnswerClick={handleAnswerClick}
@@ -18,10 +18,10 @@ const QuestionList = ({ questions, handleAnswerClick }) => {
     </div>
   );
 }
-
+/*
 QuestionList.propTypes = {
   questions: PropTypes.array.isRequired,
   handleAnswerClick: PropTypes.func.isRequired
-};
+};*/
 
 export default QuestionList;

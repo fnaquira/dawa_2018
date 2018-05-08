@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import Answer from './Answer';
 
 const Question = ({ question, answers, handleAnswerClick }) => {
@@ -12,7 +12,7 @@ const Question = ({ question, answers, handleAnswerClick }) => {
         {answers.map((answer, index) => {
           return (
             <Answer
-              key={JSON.stringify(answer.props.children)}
+              key={answer}
               answer={answer}
               handleAnswerClick={handleAnswerClick}
             />
@@ -22,11 +22,11 @@ const Question = ({ question, answers, handleAnswerClick }) => {
     </li>
   );
 }
-
+/*
 Question.propTypes = {
   question: PropTypes.element.isRequired,
   answers: PropTypes.array.isRequired,
   handleAnswerClick: PropTypes.func.isRequired
 };
-
+*/
 export default Question;

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var model_users = require('../models/users');
+var model_questions = require('../models/questions');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -19,9 +20,17 @@ router.post('/by_email', function(req, res, next) {
 });
 
 router.post('/set_q',function(req,res){
-	model_users.set_question(req.body,function(data){
-		res.send(data);
-	});
+	model_questions.get_q(req.body,function(valid){
+		model_users.set_question({
+			...req.body,
+			isCorrect: valid.isCorrect
+		},function(data){
+			res.send({
+				...data,
+				isCorrect: valid.isCorrect
+			});
+		});
+	})
 });
 
 module.exports = router;
